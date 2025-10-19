@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = "Entorno virtual backend"
+authors = ["Lautaro Gubia <gubia1263@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.2.7"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
