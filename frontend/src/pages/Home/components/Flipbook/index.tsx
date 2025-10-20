@@ -1,137 +1,96 @@
-import React, { useState } from 'react';
-import HTMLFlipBook from 'react-pageflip'; // Importa el componente
-import { Document, Page, pdfjs } from 'react-pdf';
-import './index.css';
+import HTMLFlipBook from "react-pageflip";
 
-// Configuración del worker de PDF.js para Vite
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  'pdfjs-dist/build/pdf.worker.min.mjs',
-  import.meta.url,
-).toString();
+function MiFlipbookPDF({ urlArchivoPDF = "/files/ejemplo.pdf" }: { urlArchivoPDF?: string }) {
+     const pokemonData = [
+    {
+      id: "006",
+      name: "Charizard",
+      types: ["Fire", "Flying"],
+      description: "Flies in search of strong opponents. Breathes extremely hot fire that melts anything, but never uses it on weaker foes."
+    },
+    {
+      id: "025",
+      name: "Pikachu",
+      types: ["Electric"],
+      description: "When Pikachu meet, they touch tails to exchange electricity as a greeting."
+    },
+    {
+      id: "125",
+      name: "Electabuzz",
+      types: ["Electric"],
+      description: "Often kept at power plants to regulate electricity. Competes with others to attract lightning during storms."
+    },
+    {
+      id: "185",
+      name: "Sudowoodo",
+      types: ["Rock"],
+      description: "Despite looking like a tree, its body is more like rock. Hates water and hides when it rains."
+    },
+    {
+      id: "448",
+      name: "Lucario",
+      types: ["Fighting", "Steel"],
+      description: "Can read thoughts and movements by sensing others' aura. No foe can hide from Lucario."
+    },
+    {
+      id: "658",
+      name: "Greninja",
+      types: ["Water", "Dark"],
+      description: "Creates throwing stars from compressed water that can slice through metal when thrown at high speed."
+    },
+    {
+      id: "491",
+      name: "Darkrai",
+      types: ["Dark"],
+      description: "A legendary Pokémon that appears on moonless nights, putting people to sleep and giving them nightmares."
+    }
+  ];
 
-// --- INICIO CAMBIOS TYPESCRIPT ---
-
-// 1. Tipos para las props del componente de Página
-interface PaginaProps {
-  pageNumber: number;
-  width: number;
-}
-
-// 2. Tipos para las props del Flipbook principal
-interface MiFlipbookPDFProps {
-  urlArchivoPDF: string;
-}
-
-// 3. Tipar el 'ref' con React.forwardRef
-//    Le decimos que el 'ref' será sobre un elemento HTMLDivElement
-const Pagina = React.forwardRef<HTMLDivElement, PaginaProps>(
-  (props, ref) => {
     return (
-      <div className="pagina-flipbook" ref={ref}>
-        <Page 
-          pageNumber={props.pageNumber} 
-          width={props.width} 
-        />
+    <HTMLFlipBook 
+      width={570} 
+      height={700}
+      maxShadowOpacity={0.5}
+      drawShadow={true}
+      showCover={true}
+      size='fixed'
+    >
+      <div className="bg-black h-screen w-screen" style={{ backgroundColor: '#808080' }}>
+        <div className="bg-black h-screen w-screen">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/9/98/International_Pok%C3%A9mon_logo.svg" 
+            alt="Pokémon Logo" 
+            className="pokemon-logo"
+          />
+        </div>
       </div>
-    );
-  }
-);
 
-// --- FIN CAMBIOS TYPESCRIPT ---
-
-function MiFlipbookPDF({ urlArchivoPDF }: MiFlipbookPDFProps) {
-  // 4. Tipar el estado
-  const [numPages, setNumPages] = useState<number | null>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  
-  const flipbookWidth = 500; 
-  const flipbookHeight = 700; 
-
-  // 5. Tipar el parámetro del callback
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
-    setNumPages(numPages);
-    setError(null);
-    setLoading(false);
-    console.log(`PDF cargado exitosamente. Páginas: ${numPages}`);
-  }
-
-  function onDocumentLoadError(error: Error): void {
-    setError(error.message);
-    setLoading(false);
-    console.error('Error al cargar el PDF:', error);
-  }
-
- /*  if (loading) {
-    return <div className="loading">Cargando PDF...</div>;
-  } */
-
-  if (error) {
-    return (
-      <div className="error">
-        <h3>Error al cargar el PDF:</h3>
-        <p>{error}</p>
-        <p>Verifica que el archivo existe en: {urlArchivoPDF}</p>
-      </div>
-    );
-  }
-
-  return (
-    <div>
-      <Document
-        file={urlArchivoPDF}
-        onLoadSuccess={onDocumentLoadSuccess}
-        onLoadError={onDocumentLoadError}
-        className="documento-oculto"
-        options={{
-          cMapUrl: 'cmaps/',
-          cMapPacked: true,
-          standardFontDataUrl: 'standard_fonts/',
-          disableAutoFetch: false,
-          disableStream: false,
-          disableRange: false
-        }}
-      >
-        {numPages && (
-          <HTMLFlipBook 
-            width={flipbookWidth} 
-            height={flipbookHeight} 
-            showCover={true}
-            className="flipbook"
-            style={{}}
-            startPage={0}
-            size="stretch"
-            minWidth={315}
-            maxWidth={1000}
-            minHeight={400}
-            maxHeight={1533}
-            drawShadow={true}
-            flippingTime={1000}
-            usePortrait={true}
-            startZIndex={0}
-            autoSize={true}
-            maxShadowOpacity={0.5}
-            mobileScrollSupport={true}
-            clickEventForward={true}
-            useMouseEvents={true}
-            swipeDistance={30}
-            showPageCorners={true}
-            disableFlipByClick={false}
-          >
-            {Array.from(new Array(numPages), (_, index) => (
-              <Pagina 
-                key={`page_${index + 1}`} 
-                pageNumber={index + 1} 
-                width={flipbookWidth} 
+      {pokemonData.map((pokemon) => (
+        <div className="page" key={pokemon.id} >
+          <div className="page-content" style={{ backgroundColor: '#808080' }}>
+            <div className="pokemon-container">
+              <img 
+                src={`https://www.pokemon.com/static-assets/content-assets/cms2/img/pokedex/full/${pokemon.id}.png`} 
+                alt={pokemon.name} 
               />
-            ))}
-          </HTMLFlipBook>
-        )}
-      </Document>
-    </div>
+              <div className="pokemon-info">
+                <h2 className="pokemon-name">{pokemon.name}</h2>
+                <p className="pokemon-number">#{pokemon.id}</p>
+                <div>
+                  {pokemon.types.map((type) => (
+                    <span key={type} className={`pokemon-type type-${type.toLowerCase()}`}>
+                      {type}
+                    </span>
+                  ))}
+                </div>
+                <p className="pokemon-description">{pokemon.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ))}
+    </HTMLFlipBook>
   );
 }
 
 export default MiFlipbookPDF;
-
-
