@@ -3,7 +3,7 @@ import type React from "react";
 const Footer: React.FC = () => {
     return (
         <footer>
-            <div className="background-color: #f8f9fa; text-align: center; padding: 1rem;">
+            <div className="h-15 flex justify-end items-baseline py-2 pr-5">
                 <p>Lautaro entreprize y lucielita</p>
             </div>
         </footer>
