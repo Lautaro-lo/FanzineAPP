@@ -112,7 +112,6 @@ const PDFFlipbook: React.FC<PDFFlipbookProps> = ({
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* Contenedor del flipbook */}
       <div
         ref={containerRef}
         style={{
@@ -124,31 +123,32 @@ const PDFFlipbook: React.FC<PDFFlipbookProps> = ({
         }}
       />
 
-      {/* Controles */}
-      <div className="flex mb-2 gap-4">
+      <div className="flex items-center justify-center mb-4 gap-4">
         <button
           onClick={handlePrev}
-          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded"
+          className="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
         >
           ← Anterior
         </button>
+
         <button
           onClick={handleZoom}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded"
+          className="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95 flex items-center gap-2"
         >
-          🔍 Zoom
+          🔍 <span>Zoom</span>
         </button>
+
         <button
           onClick={handleNext}
-          className="px-4 py-2 bg-gray-700 hover:bg-gray-600 text-white rounded"
+          className="px-5 py-2.5 bg-gray-700 hover:bg-gray-600 text-white font-medium rounded-lg shadow-md hover:shadow-lg transition-all duration-200 active:scale-95"
         >
           Siguiente →
         </button>
       </div>
 
-      {/* Indicador de página */}
-      <div className="text-sm text-gray-300">
-        Página {currentPage} de {totalPages || "…"}
+      <div className="text-sm text-gray-500 mt-2 font-medium tracking-wide">
+        Página <span className="text-gray-800">{currentPage}</span> de{' '}
+        {totalPages || '…'}
       </div>
     </div>
   );
