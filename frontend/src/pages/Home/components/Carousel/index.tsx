@@ -1,20 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { getPublications } from '../../../../services/fanzine.service';
 import useEmblaCarousel from 'embla-carousel-react';
 
 const Carousel: React.FC = () => {
+  const [slides, setSlides] = React.useState<any[]>([]);
+  useEffect(() => {
+      getPublications().then((data) => {
+        setSlides(data);
+      });
+  }, []);
+  
   const [emblaRef] = useEmblaCarousel({
     align: 'start',
     loop: true,
     dragFree: true, // permite arrastrar libremente
   });
 
-  const slides = [
-    '/images/slide1.jpg',
-    '/images/slide2.jpg',
-    '/images/slide3.jpg',
-    '/images/slide4.jpg',
-    '/images/slide5.jpg',
-  ];
 
   return (
     <div className="overflow-hidden max-w-6xl mx-auto" ref={emblaRef}>
