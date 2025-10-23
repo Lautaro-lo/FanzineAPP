@@ -4,9 +4,12 @@ import useEmblaCarousel from 'embla-carousel-react';
 
 const Carousel: React.FC = () => {
   const [slides, setSlides] = React.useState<any[]>([]);
+  const [loading, setLoading] = React.useState<boolean>(true);
+
   useEffect(() => {
       getPublications().then((data) => {
-        setSlides(data);
+        setSlides(data.slides);
+        setLoading(false);
       });
   }, []);
   
@@ -17,7 +20,9 @@ const Carousel: React.FC = () => {
   });
 
 
-  return (
+  return loading ? (
+    <p>Loading...</p>
+  ) : (
     <div className="overflow-hidden max-w-6xl mx-auto" ref={emblaRef}>
       <div className="flex gap-4">
         {slides.map((src, i) => (

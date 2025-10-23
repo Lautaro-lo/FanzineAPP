@@ -15,8 +15,8 @@ interface PDFFlipbookProps {
 
 const PDFFlipbook: React.FC<PDFFlipbookProps> = ({
   url,
-  width,
-  height,
+  width = 800,
+  height = 600,
   backgroundColor = "#353535",
   boxColor = "#353535",
 }) => {

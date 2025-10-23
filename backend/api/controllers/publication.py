@@ -10,7 +10,7 @@ def show_fanzine(request):
 @api_view(['GET'])
 def list_publications(request):
     folder = settings.MEDIA_ROOT
-    files = sorted(os.listdir(folder))  # ordena slide1, slide2, ...
+    files = sorted(os.listdir(folder)) 
     
     urls = [
         request.build_absolute_uri(settings.MEDIA_URL + f)
